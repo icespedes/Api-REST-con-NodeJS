@@ -4,10 +4,8 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const bcrypt = require('bcrypt-nodejs')
 const crypto = require('crypto')
-const uuidV1 = require('uuid/v1')
 
 const UserSchema = new Schema({
-	publicId: { type: String, unique: true }
 	email: { type: String, unique: true, lowercase: true },
 	displayName: String,
 	avatar: String,
@@ -32,15 +30,6 @@ UserSchema.pre('save', (next) => {
 		})
 	})
 })
-
-UserSchema.pre('save', next() => {
-	let user = this
-
-	user.publicId = uuidV1();
-
-})
-
-
 
 UserSchema.methods.gravatar = function() {
 	if (!this.email) return `https://gravatar.com/avatar/?s=200&d=retro`
